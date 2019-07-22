@@ -1,6 +1,7 @@
 [book]
 title = "Asynchronous Programming in Rust"
 authors = ["Taylor Cramer"]
+src = "src_zh-tw"
 
 [build]
 create-missing = false
