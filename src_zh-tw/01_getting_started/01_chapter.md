@@ -1,25 +1,19 @@
-# Getting Started
+# 開始上手
 
-Welcome to Asynchronous Programming in Rust! If you're looking to start writing
-asynchronous Rust code, you've come to the right place. Whether you're building
-a web server, a database, or an operating system, this book will show you
-how to use Rust's asynchronous programming tools to get the most out of your
-hardware.
+歡迎來到 Rust 非同步程式設計！如果你正要開始編寫非同步 Rust 程式碼，那麼你來對
+地方啦。不論你要建立一個網路伺服器，或是一個作業系統，本書將會演示如何使用 Rust
+的非同步程式設計工具來充分運用你的硬體。
 
-## What This Book Covers
+## 本書涵蓋內容
 
-This book aims to be a comprehensive, up-to-date guide to using Rust's async
-language features and libraries, appropriate for beginners and old hands alike.
+本書旨在作為一本全面且不斷更新的指南，著重 Rust 非同步語言特性與函式庫指南，
+並適合新手和老鳥閱讀。
 
-- The early chapters provide an introduction to async programming in general,
-and to Rust's particular take on it.
+- 前幾個章節提供了一般的非同步程式設計介紹，以及 Rust 如何處理非同步。
 
-- The middle chapters discuss key utilities and control-flow tools you can use
-when writing async code, and describe best-practices for structuring libraries
-and applications to maximize performance and reusability.
+- 中間幾個章節會討論編寫非同步程式碼的重要的實用工具與流程控制方法，並探討架構
+函式庫與應用程式的最佳實踐，以達到效能與可用性最大化。
 
-- The last section of the book covers the broader async ecosystem, and provides
-a number of examples of how to accomplish common tasks.
+- 本書最後的部分涵蓋了更為廣闊的非同步生態系，並提供許多常見任務的實戰範例。
 
-With that out of the way, let's explore the exciting world of Asynchronous
-Programming in Rust!
+有了這些，讓我們一起探索令人興奮的 Rust 非同步程式設計的世界吧！
