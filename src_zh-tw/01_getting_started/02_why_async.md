@@ -1,45 +1,32 @@
-## Why Async?
+## 為什麼是非同步？
 
-We all love how Rust allows us to write fast, safe software. But why write
-asynchronous code?
+我們都愛 Rust 讓我們有辦法寫出快速又安全的軟體。但為什麼要編寫非同步程式碼呢？
 
-Asynchonous code allows us to run multiple tasks concurrently on the same OS
-thread. In a typical threaded application, if you wanted to download two
-different webpages at the same time, you would spread the work across two
-different threads, like this:
+非同步的程式碼可以在同個作業系統的執行緒下同時執行多項任務。在一個典型的多執行
+緒程式中，如果要在同一時間下載多個不同的網頁，你需要講工作分佈到兩個相異的執行
+緒中，如下：
 
 ```rust
 {{#include ../../examples/01_02_why_async/src/lib.rs:17:25}}
 ```
 
-This works fine for many applications-- after all, threads were designed
-to do just this: run multiple different tasks at once. However, they also
-come with some limitations. There's a lot of overhead involved in the
-process of switching between different threads and sharing data between
-threads. Even a thread which just sits and does nothing uses up valuable
-system resources. These are the costs that asynchronous code is designed
-to eliminate. We can rewrite the function above using Rust's
-`async`/`.await` notation, which will allow us to run multiple tasks at
-once without creating multiple threads:
+對大部分的應用程式來說，這還行，畢竟執行緒就是設計來做這種事：同時執行多項不同
+的任務。然而，一些限制接踵而來。在不同的執行緒與切換，以及在執行緒間資料共享的
+開銷非常多。就算是無所事事在一旁涼快的一個執行緒仍然消耗寶貴的系統資源。而非同
+步程式就算設計來消滅這些開銷。我們可以透過 Rust 的 `async`/`.await` 語法，重寫
+上面這個函數，這個語法標記允許我們在不建立多個執行緒的條件下同時執行多項任務：
 
 ```rust
 {{#include ../../examples/01_02_why_async/src/lib.rs:31:39}}
 ```
 
-Overall, asynchronous applications have the potential to be much faster and
-use fewer resources than a corresponding threaded implementation. However,
-there is a cost. Threads are natively supported by the operating system,
-and using them doesn't require any special programming model-- any function
-can create a thread, and calling a function that uses threads is usually
-just as easy as calling any normal function. However, asynchronous functions
-require special support from the language or libraries.
-In Rust, `async fn` creates an asynchronous function which returns a `Future`.
-To execute the body of the function, the returned `Future` must be run to
-completion.
+總體來說，非同步應用程式有潛力比相對應的多執行緒實作來得更快更節省資源。不過，
+它仍然有個成本。執行緒由作業系統原生提供，使用上不需要特殊的程式設計模式，任意
+的函式都可建立執行緒，且呼叫使用執行緒的函式就和呼叫普通函式一樣容易。然而，非
+同步的函式需要程式語言或函式庫特殊的支援。
+在 Rust 的世界，`async fn` 會建立一個非同步函式，函式會返回一個 `Future`。若要
+執行函式主體，則返回的 `Future` 必須執行直到完成。
 
-It's important to remember that traditional threaded applications can be quite
-effective, and that Rust's small memory footprint and predictability mean that
-you can get far without ever using `async`. The increased complexity of the
-asynchronous programming model isn't always worth it, and it's important to
-consider whether your application would be better served by using a simpler
-threaded model.
+傳統多執行緒的程式可以達到高效，而 Rust 少量的記憶體足跡與預測性代表了用了
+`async`，你可以走得更遠。非同步程式設計模型帶來的複雜度並非總是值得，該仔細考慮
+你的應用程式是否在簡單多執行緒模型下能跑得更好。
