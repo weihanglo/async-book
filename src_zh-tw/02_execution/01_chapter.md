@@ -1,13 +1,9 @@
-# Under the Hood: Executing `Future`s and Tasks
+# 揭秘：執行 ``Future`` 與任務
 
-In this section, we'll cover the underlying structure of how `Future`s and
-asynchronous tasks are scheduled. If you're only interested in learning
-how to write higher-level code that uses existing `Future` types and aren't
-interested in the details of how `Future` types work, you can skip ahead to
-the `async`/`await` chapter. However, several of the topics discussed in this
-chapter are useful for understanding how `async`/`await` code works,
-understanding the runtime and performance properties of `async`/`await` code,
-and building new asynchronous primitives. If you decide to skip this section
-now, you may want to bookmark it to revisit in the future.
+在本章節，我們會涵蓋 `Future` 與非同步任務如何調度的底層結構。如果只對學習如何
+編寫更高層次的程式碼，來使用既有的 `Future`，並對 `Future` 如何運作的細節毫無興
+趣，可直接跳到 `async/await` 章節。然而，本章講述的眾多主題對理解 `async/await`
+運作原理、執行期與效能相關屬性，以及打造新的非同步基礎型別，都非常有幫助。若你
+決心跳過這個部分，你可能會想要收藏起來，往後再度來訪。
 
-Now, with that out of the, way, let's talk about the `Future` trait.
+現在，讓我們來談談 `Future` trait。
