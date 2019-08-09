@@ -6,7 +6,7 @@
   - [`async`/`.await` 入門](01_getting_started/04_async_await_primer.md)
   - [案例：HTTP 伺服器](01_getting_started/05_http_server_example.md)
 - [揭秘：執行 `Future` 與任務](02_execution/01_chapter.md)
-  - [`Future` 特性](02_execution/02_future.md)
+  - [`Future` Trait](02_execution/02_future.md)
   - [透過 `Waker` 喚醒任務](02_execution/03_wakeups.md)
   - [案例：自建一個執行器](02_execution/04_executor.md)
   - [執行器與系統 IO](02_execution/05_io.md)

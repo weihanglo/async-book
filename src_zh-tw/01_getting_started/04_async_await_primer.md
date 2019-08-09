@@ -1,7 +1,7 @@
 # `async`/`.await` 入門
 
 `async/.await` 是 Rust 內建編寫非同步函式的工具，讓非同步函式寫起來像同步。
-`async` 會將一塊程式碼轉換為一個實作 `Future` 特性的狀態機。相較於在同步的方法
+`async` 會將一塊程式碼轉換為一個實作 `Future` trait 的狀態機。相較於在同步的方法
 中呼叫一個阻塞函式（blocking function）會阻塞整個執行緒，反之，被阻塞的
 `Future` 會釋出執行緒的控制權，讓其他 `Future` 可以繼續運作。
 
@@ -18,7 +18,7 @@ async fn do_something() { ... }
 {{#include ../../examples/01_04_async_await_primer/src/lib.rs:7:19}}
 ```
 
-在一個 `async fn` 裡，可以使用 `.await` 來等待另一個實作 `Future` 特性的型別完
+在一個 `async fn` 裡，可以使用 `.await` 來等待另一個實作 `Future` trait 的型別完
 成任務，例如其他 `async fn` 的輸出。和 `block_on` 不同的事，`.await` 不會阻塞當
 前的執行緒，取而代之的是非同步地等待這個 future 完成，若這個 future 當下不能有
 所進展，也能允許其他任務繼續執行。
