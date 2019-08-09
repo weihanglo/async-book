@@ -1,80 +1,67 @@
-# The `Future` Trait
+# `Future` Trait
 
-The `Future` trait is at the center of asynchronous programming in Rust.
-A `Future` is an asynchronous computation that can produce a value
-(although that value may be empty, e.g. `()`). A *simplified* version of
-the future trait might look something like this:
+`Future` trait 在 Rust 非同步程式設計中最為關鍵。一個 `Future` 就是一個非同步的
+運算，產出一個結果值（雖然這個值可能為空，例如 `()`）。一個*簡化*版的 future
+trait 看起來如下：
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:1:9}}
 ```
 
-Futures can be advanced by calling the `poll` function, which will drive the
-future as far towards completion as possible. If the future completes, it
-returns `Poll::Ready(result)`. If the future is not able to complete yet, it
-returns `Poll::Pending` and arranges for the `wake()` function to be called
-when the `Future` is ready to make more progress. When `wake()` is called, the
-executor driving the `Future` will call `poll` again so that the `Future` can
-make more progress.
+Future 可以透過呼叫 `poll` 函式往前推進，這個函式會盡可能地驅使 future 邁向完
+成。若 future 完成了，就回傳 `Poll::Ready(reuslt)`。若這個 future 尚無法完成，
+就回傳 `Poll::Pending`，並安排在該 `Future` 就緒，可以取得進展時來呼叫 `wake()`
+函式。當呼叫了 `wake()`，執行器（executor）會驅使 `Future` 再次呼叫 `poll`，於
+是 `Future` 就可以取得更多進展。
 
-Without `wake()`, the executor would have no way of knowing when a particular
-future could make progress, and would have to be constantly polling every
-future. With `wake()`, the executor knows exactly which futures are ready to
-be `poll`ed.
+若沒有 `wake()`，執行器不會知道哪個 future 可以取得進展，且必須不斷輪詢所有
+future。有了 `wake()`，執行器能夠確切知道哪個 future 已準備好接受輪詢。
 
-For example, consider the case where we want to read from a socket that may
-or may not have data available already. If there is data, we can read it
-in and return `Poll::Ready(data)`, but if no data is ready, our future is
-blocked and can no longer make progress. When no data is available, we
-must register `wake` to be called when data becomes ready on the socket,
-which will tell the executor that our future is ready to make progress.
-A simple `SocketRead` future might look something like this:
+舉例來說，試想想我們要從 socket 讀取一些可能尚未就緒的資料。如果有資料進來，我
+們則可以讀取它並會出啊 `Poll:Ready(data)`，但若沒有任何資料就緒，我們的 future
+會被阻塞且無法取得任何進展。當沒有任何資料，我們必須註冊 `wake` 函式，使其在
+socket 上的資料就緒時被呼叫，進而告知執行器我們的 future 準備好取得進展了。一個
+簡單的 `SocketRead` future 大致上類似這樣：
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:28:50}}
 ```
 
-This model of `Future`s allows for composing together multiple asynchronous
-operations without needing intermediate allocations. Running multiple futures
-at once or chaining futures together can be implemented via allocation-free
-state machines, like this:
+這個 `Future` 原型可以在不需要中間配置（intermediate allocation）下組合多個非同
+步操作。並可以經由免配置狀態機（allocation-free state machine）實作同時執行多
+個 future 或是串聯多個 future 的操作，示例如下：
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:52:95}}
 ```
 
-This shows how multiple futures can be run simultaneously without needing
-separate allocations, allowing for more efficient asynchronous programs.
-Similarly, multiple sequential futures can be run one after another, like this:
+這展示了多個 future 如何在無需分別配置資源的情形下同時執行，讓我們能夠寫出更高
+效的非同步程式。無獨有偶，多個循序的 future 也能一個接著一個執行，如下所示：
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:97:127}}
 ```
 
-These examples show how the `Future` trait can be used to express asynchronous
-control flow without requiring multiple allocated objects and deeply nested
-callbacks. With the basic control-flow out of the way, let's talk about the
-real `Future` trait and how it is different.
+這些示例展現出 `Future` 可以在無需額外配置的物件與深度巢狀回呼 （nested
+callback）的情形下，清晰表達出非同步的流程控制。看完這樣基本的流程控制，讓我們
+來討論真正的 `Future` trait 和剛剛的原型哪裡不相同。
 
 ```rust
 {{#include ../../examples/02_02_future_trait/src/lib.rs:136:144}}
 ```
 
-The first change you'll notice is that our `self` type is no longer `&mut self`,
-but has changed to `Pin<&mut Self>`. We'll talk more about pinning in [a later 
-section][pinning], but for now know that it allows us to create futures that
-are immovable. Immovable objects can store pointers between their fields,
-e.g. `struct MyFut { a: i32, ptr_to_a: *const i32 }`. Pinning is necessary
-to enable async/await.
+你會發現的第一個改變是 `self` 型別不再是 `&mut self`，而是由 `Pin<&mut self>`
+取代。我們會在[往後的章節][pinning]有更多關於 Pinning 討論，此刻知道它允許我們
+建立一個不移動（immovable）的 future。不移動物件可在它們的欄位（field）保存指標
+，例如 `struct MyFut { a: i32, ptr_to_a: *const i32 }`。Pinning 是啟用 
+async/await 前必要之功能。
 
-Secondly, `wake: fn()` has changed to `&mut Context<'_>`. In `SimpleFuture`,
-we used a call to a function pointer (`fn()`) to tell the future executor that
-the future in question should be polled. However, since `fn()` is zero-sized,
-it can't store any data about *which* `Future` called `wake`.
+第二，`wake: fn()` 改為 `&mut Context<_>`。在 `SimpleFuture` 我們透過呼叫一個函
+式指標（`fn()`）來告知 future 執行器這個 future 可以接受輪詢。然而，由於 `fn()`
+是 zero-sized，它不能儲存任何有關哪個 `Future` 呼叫了 `wake`。
 
-In a real-world scenario, a complex application like a web server may have
-thousands of different connections whose wakeups should all be
-managed separately. The `Context` type solves this by providing access to
-a value of type `Waker`, which can be used to wake up a specific task.
+在真實世界場景下，一個複雜如網頁伺服器的應用程式可能有數以千計不同的連線，這些
+連線的喚醒函式需要妥善分別管理。`Context` 型別提供取得一個型別叫 `Waker` 來解決
+這個問題，`Waker` 則是用來喚醒一個特定任務。
 
 [pinning]: ../04_pinning/01_chapter.md
