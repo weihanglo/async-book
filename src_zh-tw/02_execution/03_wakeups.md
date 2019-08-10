@@ -1,63 +1,45 @@
-# Task Wakeups with `Waker`
+# 透過 ``Waker`` 喚醒任務
 
-It's common that futures aren't able to complete the first time they are
-`poll`ed. When this happens, the future needs to ensure that it is polled
-again once it is ready to make more progress. This is done with the `Waker`
-type.
+對 future 來說，第一次被輪詢（`poll`）時任務尚未完成再正常不過了。當這件事發生，future 必須確認它未來就緒時會被再度輪詢以取得進展。這就需透過 `Waker` 型別處理。
 
-Each time a future is polled, it is polled as part of a "task". Tasks are
-the top-level futures that have been submitted to an executor.
+每次輪詢一個 future 時，都將其作為「任務（task）」的一部分來輪詢。任務實際上是已提交到執行器的最上層 future。
 
-`Waker` provides a `wake()` method that can be used to tell the executor that
-the associated task should be awoken. When `wake()` is called, the executor
-knows that the task associated with the `Waker` is ready to make progress, and
-its future should be polled again.
+`Waker` 提供一個 `wake()` 方法，可以告知執行器相關的任務需要喚醒。當呼叫了 `wake()`，執行器就會得知連動該 `Waker` 的任務已準備就緒取得進展，且應該再度輪詢它的 future。
 
-`Waker` also implements `clone()` so that it can be copied around and stored.
+`Waker` 同時實作了 `clone()`，所以它可以四處複製與儲存。
 
-Let's try implementing a simple timer future using `Waker`.
+我們來試試用 `Waker` 實作一個簡易計時器。
 
-## Applied: Build a Timer
+## 案例：打造一個計時器
 
-For the sake of the example, we'll just spin up a new thread when the timer
-is created, sleep for the required time, and then signal the timer future
-when the time window has elapsed.
+為了貼近示例的目的，我們只需要在計時器建立時開一個執行緒，睡眠一段必要的時間，當計時器時間到，再發送訊號給計時器 future。
 
-Here are the imports we'll need to get started:
+這邊是我們開始手作前需要的 import：
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:3:12}}
 ```
 
-Let's start by defining the future type itself. Our future needs a way for the
-thread to communicate that the timer has elapsed and the future should complete.
-We'll use a shared `Arc<Mutex<..>>` value to communicate between the thread and
-the future.
+讓我們從定義自己的 future 型別開始。我們的 future 需要一個溝通方法，給執行緒通知我們計時器的時間到了 future 也該完成了。我們會用一個共享狀態 `Arc<Mutex<..>>` 在執行緒與 future 間溝通。
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:14:28}}
 ```
 
-Now, let's actually write the `Future` implementation!
+現在，我們要實際動手實作 `Future` 了！
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:30:54}}
 ```
 
-Pretty simple, right? If the thread has set `shared_state.completed = true`,
-we're done! Otherwise, we clone the `Waker` for the current task and pass it to
-`shared_state.waker` so that the thread can wake the task back up.
+很簡單吧？如果執行緒設定 `shared_state.completed = true`，我們完成了！否則，我們就複製當前任務的 `Waker` 並將其傳入 `shared_state.waker`，以便執行緒往後喚醒任務。
 
-Importantly, we have to update the `Waker` every time the future is polled
-because the future may have moved to a different task with a different
-`Waker`. This will happen when futures are passed around between tasks after
-being polled.
+重要的是，在每次輪詢 future 後必須更新 `Waker`，因為 future 有可能移動到帶有不同 `Waker` 的不同任務上。這種狀況會發生在 future 在 task 之間相互傳遞時。
 
-Finally, we need the API to actually construct the timer and start the thread:
+最後，我們需要可以實際構建計時器與啟動執行緒的 API：
 
 ```rust
 {{#include ../../examples/02_03_timer/src/lib.rs:56:80}}
 ```
 
-Woot! That's all we need to build a simple timer future. Now, if only we had
-an executor to run the future on...
+呼！這些就是打造簡易計時器 future 的一切所需。現在，我們若有一個執行器可以讓  future 跑起來⋯
