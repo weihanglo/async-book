@@ -2,7 +2,7 @@
 
 :warning: This is an unoffical Traditional Chinese translation of the offical [`Asynchronous Programming in Rust`] book.
 
-This translation is currently fixed to the commit `da86108` of the original repository.
+This translation is currently fixed to the commit `d25ddc3` of the original repository.
 
 To contribute the translation itsef, file issues or send pull requests directly to this project. Do not open any issue related to translations on the original repository.
 
