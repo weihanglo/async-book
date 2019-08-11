@@ -1,84 +1,53 @@
 # `async`/`.await`
 
-In [the first chapter], we took a brief look at `async`/`.await` and used
-it to build a simple server. This chapter will discuss `async`/`.await` in
-greater detail, explaining how it works and how `async` code differs from
-traditional Rust programs.
+在[第一章][the first chapter]，我們簡要介紹了 `async/.await`，並用它簡單架構一個簡易伺服器。本章節將深入探討 `async/.await` 的細節，解釋其運作原理，並比較 `async` 程式碼和傳統 Rust 程式的區別。
 
-`async`/`.await` are special pieces of Rust syntax that make it possible to
-yield control of the current thread rather than blocking, allowing other
-code to make progress while waiting on an operation to complete.
+`async`/`.await` 是特殊的 Rust 語法，使其能轉移控制權到當前執行緒，而非阻塞之，並在等待操作完成的同時，允許其他程式碼繼續推進。
 
-There are two main ways to use `async`: `async fn` and `async` blocks.
-Each returns a value that implements the `Future` trait:
+使用 `async` 有兩個主要途徑：`async fn` 與 `async` 區塊（block）。兩者皆返回一個實作 `Future` trait 的值：
 
 ```rust
 {{#include ../../examples/03_01_async_await/src/lib.rs:6:19}}
 ```
 
-As we saw in the first chapter, `async` bodies and other futures are lazy:
-they do nothing until they are run. The most common way to run a `Future`
-is to `.await` it. When `.await` is called on a `Future`, it will attempt
-to run it to completion. If the `Future` is blocked, it will yield control
-of the current thread. When more progress can be made, the `Future` will be picked
-up by the executor and will resume running, allowing the `.await` to resolve.
+如我們在第一章所見， `async` 函式主體和其他 future 都具有惰性：在執行前不做任何事。執行一個 `Future` 最常見的手段是 `.await` 它。當對一個 `Future` 呼叫 `.await` 時，會嘗試執行它到完成。若該 `Future` 阻塞，將會轉移控制權到當前的執行緒。而執行器會在該 `Future` 能取得更多進展時恢復執行它，讓 `.await` 得以解決。
 
-## `async` Lifetimes
+## `async` 生命週期
 
-Unlike traditional functions, `async fn`s which take references or other
-non-`'static` arguments return a `Future` which is bounded by the lifetime of
-the arguments:
+和其他傳統函式不同， `async fn` 會取得引用（reference）或其他非 `'static` 引數（argument），並返回一個綁定這些引數生命週期的 `Future`。
 
 ```rust
 {{#include ../../examples/03_01_async_await/src/lib.rs:24:32}}
 ```
 
-This means that the future returned from an `async fn` must be `.await`ed
-while its non-`'static` arguments are still valid. In the common
-case of `.await`ing the future immediately after calling the function
-(as in `foo(&x).await`) this is not an issue. However, if storing the future
-or sending it over to another task or thread, this may be an issue.
+這代表了從 `async fn` 返回的 future 只能在其非 `'-static` 引數的有效生命週期內被 `await`。
 
-One common workaround for turning an `async fn` with references-as-arguments
-into a `'static` future is to bundle the arguments with the call to the
-`async fn` inside an `async` block:
+在常見的例子像在呼叫函式（如 `foo(&x).await`）立刻 `await` 該 future，這並不構成問題。不過，如果想保存或將這個 future 傳送到其他任務或執行緒中，這可能會發生問題。
+
+常見將一個引用作為引數的 `async fn` 轉換為回傳一個 `'static` future 的方法是，將呼叫 `async fn` 需要的引數包裹在一個 `async` 區塊裡：
 
 ```rust
 {{#include ../../examples/03_01_async_await/src/lib.rs:34:47}}
 ```
 
-By moving the argument into the `async` block, we extend its lifetime to match
-that of the `Future` returned from the call to `foo`.
+透過將引數移動到該 `async` 區塊，我們延長了引數的生命週期，使其匹配 `foo` 回傳的 `Future`。
 
 ## `async move`
 
-`async` blocks and closures allow the `move` keyword, much like normal
-closures. An `async move` block will take ownership of the variables it
-references, allowing it to outlive the current scope, but giving up the ability
-to share those variables with other code:
+`async` 區塊（block） 與閉包（closure）可以使用 `move` 關鍵字，行為更類似一般的閉包。一個 `async move` block 會取得它引用到的變數之所有權，這些變數就可以活過（outlive）當前的作用範圍（scope），但也就得與放棄其他程式碼共享這些變數的好處。
 
 ```rust
 {{#include ../../examples/03_01_async_await/src/lib.rs:52:87}}
 ```
 
-## `.await`ing on a Multithreaded Executor
+## 在多執行緒的執行器上 `.await`
 
-Note that, when using a multithreaded `Future` executor, a `Future` may move
-between threads, so any variables used in `async` bodies must be able to travel
-between threads, as any `.await` can potentially result in a switch to a new
-thread.
+請注意，當使用多執行緒的 `Future` 執行器時，因為 `.await` 可能導致環境切換至新執行緒，讓 `Future` 可能在不同執行緒間移動，所以任何用在 `async` 裡的變數都必須能在執行緒間傳輸。
 
-This means that it is not safe to use `Rc`, `&RefCell` or any other types
-that don't implement the `Send` trait, including references to types that don't
-implement the `Sync` trait.
+這代表使用 `Rc`、`&RefCell` 或其他沒有實作 `Send` trait 的型別，包含沒實作 `Sync` trait 引用型別，都不安全。
 
-(Caveat: it is possible to use these types so long as they aren't in scope
-during a call to `.await`.)
+（警告：只要不在呼叫 `.await` 的作用域裡，這些型別還是可以使用）
 
-Similarly, it isn't a good idea to hold a traditional non-futures-aware lock
-across an `.await`, as it can cause the threadpool to lock up: one task could
-take out a lock, `.await` and yield to the executor, allowing another task to
-attempt to take the lock and cause a deadlock. To avoid this, use the `Mutex`
-in `futures::lock` rather than the one from `std::sync`.
+同樣地，在 `.await` 之間持有傳統非 future 的鎖不是個好主意，它可能會造成執行緒池（threadpool）完全鎖上：一個任務拿走了鎖，並且 `.await` 將控制權轉移至執行器，讓其他任務嘗試取得鎖，然後就造成死鎖（deadlock）。我們可以使用 `futures::lock` 而不是 `std::sync` 中的 `Mutex` 從而避免這件事。
 
 [the first chapter]: ../01_getting_started/04_async_await_primer.md
