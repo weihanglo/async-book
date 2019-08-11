@@ -1,16 +1,12 @@
-# The `Stream` Trait
+# `Stream` Trait
 
-The `Stream` trait is similar to `Future` but can yield multiple values before
-completing, similar to the `Iterator` trait from the standard library:
+`Stream` trait 類似於 `Future`，不同的是在完成前可以產生多個值，就如同標準函式庫的 `Iterator` trait：
 
 ```rust
 {{#include ../../examples/05_01_streams/src/lib.rs:13:22}}
 ```
 
-One common example of a `Stream` is the `Receiver` for the channel type from
-the `futures` crate. It will yield `Some(val)` every time a value is sent
-from the `Sender` end, and will yield `None` once the `Sender` has been
-dropped and all pending messages have been received:
+常見的 `Stream` 範例是 `futures` 模組裡的通道（channel）型別的 `Receiver`。每次有值從 `Sender` 發送端發送，它就會產生 `Some(val)`；或是當整個 `Sender` 被捨棄（dropped）且所有等待中的訊息都被接收到，`Stream` 就會產生 `None`：
 
 ```rust
 {{#include ../../examples/05_01_streams/src/lib.rs:43:56}}

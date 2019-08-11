@@ -1,23 +1,14 @@
-# Iteration and Concurrency
+# 迭代與並行
 
-Similar to synchronous `Iterator`s, there are many different ways to iterate
-over and process the values in a `Stream`. There are combinator-style methods
-such as `map`, `filter`, and `fold`, and their early-exit-on-error cousins
-`try_map`, `try_filter`, and `try_fold`.
+和同步的 `Iterator` 一樣，迭代並處理在 `Steam` 裡的值有許多作法。有許多組合子（combinator）風格的方法，例如 `map`、`filter` 和 `fold`，和它們*遇錯就提前退出*的表親 `try_map`、`try_filter` 以及 `try_fold`。
 
-Unfortunately, `for` loops are not usable with `Stream`s, but for
-imperative-style code, `while let` and the `next`/`try_next` functions can
-be used:
+不幸的是 `for` 迴圈無法配合 `Stream` 使用，但命令式風格程式碼 `while let` 與 `next`/`try_next` 可以使用：
 
 ```rust
 {{#include ../../examples/05_02_iteration_and_concurrency/src/lib.rs:15:33}}
 ```
 
-However, if we're just processing one element at a time, we're potentially
-leaving behind opportunity for concurrency, which is, after all, why we're
-writing async code in the first place. To process multiple items from a stream
-concurrently, use the `for_each_concurrent` and `try_for_each_concurrent`
-methods:
+不過，如果一次只處理一個元素，那就錯失善用並行的良機，畢竟並行是寫非同步程式碼的初衷嘛。想要並行處理 steam 上多個元素，請用 `for_each_concurrent` 與 `try_for_each_concurrent` 方法：
 
 ```rust
 {{#include ../../examples/05_02_iteration_and_concurrency/src/lib.rs:50:63}}
