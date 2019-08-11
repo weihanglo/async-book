@@ -21,13 +21,13 @@
 此外，有些 import 需要新增：
 
 ```rust
-{{#include ../../examples/01_05_http_server/src/lib.rs:4:27}}
+{{#include ../../examples/01_05_http_server/src/lib.rs:imports}}
 ```
 
 當這些 imports 加入後，將這些鍋碗瓢盆放在一起，就能開始接收請求：
 
 ```rust
-{{#include ../../examples/01_05_http_server/src/lib.rs:29:72}}
+{{#include ../../examples/01_05_http_server/src/lib.rs:boilerplate}}
 ```
 
 如果現在跑 `cargo run`，應該會看到「Listening on http://127.0.0.1:3000」輸出在終端機上。若在你的瀏覽器開啟這個鏈結，會看到「hello, world」出現在你的瀏覽器。恭喜！你剛寫下第一個 Rust 非同步網頁伺服器。
@@ -43,13 +43,13 @@ println!("Got request at {:?}", req.uri());
 我們從解析想要請求的 URL 開始：
 
 ```rust
-{{#include ../../examples/01_05_http_server/src/lib.rs:89:90}}
+{{#include ../../examples/01_05_http_server/src/lib.rs:parse_url}}
 ```
 
 接下來我們建立一個新的 `hyper::Client` 並用之生成一個 `GET` 請求，這個請求會回傳一個回應給使用者。
 
 ```rust
-{{#include ../../examples/01_05_http_server/src/lib.rs:89:97}}
+{{#include ../../examples/01_05_http_server/src/lib.rs:get_request}}
 ```
 
 `Client::get` 返回一個 `hyper::client::FutureResponse`，這個 future 實作了 `Future<Output = Result<Response, Error>>`（或 futures 0.1 的 `Future<Item = Response, Error = Error>`）。當我們 `.await` 這個 future，將會發送一個 HTTP 請求，當前的任務會暫時停止（suspend），而這個任務會進入佇列中，在收到回應後繼續執行。

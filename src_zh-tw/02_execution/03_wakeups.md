@@ -17,19 +17,19 @@
 這邊是我們開始手作前需要的 import：
 
 ```rust
-{{#include ../../examples/02_03_timer/src/lib.rs:3:12}}
+{{#include ../../examples/02_03_timer/src/lib.rs:imports}}
 ```
 
 讓我們從定義自己的 future 型別開始。我們的 future 需要一個溝通方法，給執行緒通知我們計時器的時間到了 future 也該完成了。我們會用一個共享狀態 `Arc<Mutex<..>>` 在執行緒與 future 間溝通。
 
 ```rust
-{{#include ../../examples/02_03_timer/src/lib.rs:14:28}}
+{{#include ../../examples/02_03_timer/src/lib.rs:timer_decl}}
 ```
 
 現在，我們要實際動手實作 `Future` 了！
 
 ```rust
-{{#include ../../examples/02_03_timer/src/lib.rs:30:54}}
+{{#include ../../examples/02_03_timer/src/lib.rs:future_for_timer}}
 ```
 
 很簡單吧？如果執行緒設定 `shared_state.completed = true`，我們完成了！否則，我們就複製當前任務的 `Waker` 並將其傳入 `shared_state.waker`，以便執行緒往後喚醒任務。
@@ -39,7 +39,7 @@
 最後，我們需要可以實際構建計時器與啟動執行緒的 API：
 
 ```rust
-{{#include ../../examples/02_03_timer/src/lib.rs:56:80}}
+{{#include ../../examples/02_03_timer/src/lib.rs:timer_new}}
 ```
 
 呼！這些就是打造簡易計時器 future 的一切所需。現在，我們若有一個執行器可以讓  future 跑起來⋯
