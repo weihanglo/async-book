@@ -12,7 +12,20 @@ script:
   - mdbook build
   - cargo test --all --manifest-path=./examples/Cargo.toml --target-dir ./target
 
+branch:
+  only:
+    - zh-tw
+
 env:
   RUSTINFRA_DEPLOY_DIR: book/html
 import:
   - rust-lang/simpleinfra/travis-configs/static-websites.yml
+
+deploy:
+  provider: pages
+  local_dir: $RUSTINFRA_DEPLOY_DIR
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+    branch: zh-tw
