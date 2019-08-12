@@ -3,7 +3,9 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>The Future Trait - Asynchronous Programming in Rust</title>
+        <title>Future Trait - Rust 非同步程式設計</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,7 +58,7 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
@@ -75,7 +77,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="../01_getting_started/01_chapter.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li><a href="../01_getting_started/02_why_async.html"><strong aria-hidden="true">1.1.</strong> Why Async?</a></li><li><a href="../01_getting_started/03_state_of_async_rust.html"><strong aria-hidden="true">1.2.</strong> The State of Asynchronous Rust</a></li><li><a href="../01_getting_started/04_async_await_primer.html"><strong aria-hidden="true">1.3.</strong> async/.await Primer</a></li><li><a href="../01_getting_started/05_http_server_example.html"><strong aria-hidden="true">1.4.</strong> Applied: HTTP Server</a></li></ol></li><li><a href="../02_execution/01_chapter.html"><strong aria-hidden="true">2.</strong> Under the Hood: Executing Futures and Tasks</a></li><li><ol class="section"><li><a href="../02_execution/02_future.html" class="active"><strong aria-hidden="true">2.1.</strong> The Future Trait</a></li><li><a href="../02_execution/03_wakeups.html"><strong aria-hidden="true">2.2.</strong> Task Wakeups with Waker</a></li><li><a href="../02_execution/04_executor.html"><strong aria-hidden="true">2.3.</strong> Applied: Build an Executor</a></li><li><a href="../02_execution/05_io.html"><strong aria-hidden="true">2.4.</strong> Executors and System IO</a></li></ol></li><li><a href="../03_async_await/01_chapter.html"><strong aria-hidden="true">3.</strong> async/await</a></li><li><a href="../04_pinning/01_chapter.html"><strong aria-hidden="true">4.</strong> Pinning</a></li><li><a href="../05_streams/01_chapter.html"><strong aria-hidden="true">5.</strong> Streams</a></li><li><ol class="section"><li><a href="../05_streams/02_iteration_and_concurrency.html"><strong aria-hidden="true">5.1.</strong> Iteration and Concurrency</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">6.</strong> TODO: Executing Multiple Futures at a Time</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">6.1.</strong> TODO: join! and select!</a></li><li><a href="../404.html"><strong aria-hidden="true">6.2.</strong> TODO: Spawning</a></li><li><a href="../404.html"><strong aria-hidden="true">6.3.</strong> TODO: Cancellation and Timeouts</a></li><li><a href="../404.html"><strong aria-hidden="true">6.4.</strong> TODO: FuturesUnordered</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">7.</strong> TODO: I/O</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">7.1.</strong> TODO: AsyncRead and AsyncWrite</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">8.</strong> TODO: Asynchronous Design Patterns: Solutions and Suggestions</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">8.1.</strong> TODO: Modeling Servers and the Request/Response Pattern</a></li><li><a href="../404.html"><strong aria-hidden="true">8.2.</strong> TODO: Managing Shared State</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">9.</strong> TODO: The Ecosystem: Tokio and More</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">9.1.</strong> TODO: Lots, lots more?...</a></li></ol></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li><a href="../01_getting_started/01_chapter.html"><strong aria-hidden="true">1.</strong> 開始上手</a></li><li><ol class="section"><li><a href="../01_getting_started/02_why_async.html"><strong aria-hidden="true">1.1.</strong> 為什麼是非同步？</a></li><li><a href="../01_getting_started/03_state_of_async_rust.html"><strong aria-hidden="true">1.2.</strong> 非同步 Rust 的現況</a></li><li><a href="../01_getting_started/04_async_await_primer.html"><strong aria-hidden="true">1.3.</strong> async/.await 入門</a></li><li><a href="../01_getting_started/05_http_server_example.html"><strong aria-hidden="true">1.4.</strong> 案例：HTTP 伺服器</a></li></ol></li><li><a href="../02_execution/01_chapter.html"><strong aria-hidden="true">2.</strong> 揭秘：執行 Future 與任務</a></li><li><ol class="section"><li><a href="../02_execution/02_future.html" class="active"><strong aria-hidden="true">2.1.</strong> Future Trait</a></li><li><a href="../02_execution/03_wakeups.html"><strong aria-hidden="true">2.2.</strong> 透過 Waker 喚醒任務</a></li><li><a href="../02_execution/04_executor.html"><strong aria-hidden="true">2.3.</strong> 案例：打造一個執行器</a></li><li><a href="../02_execution/05_io.html"><strong aria-hidden="true">2.4.</strong> 執行器與系統輸入輸出</a></li></ol></li><li><a href="../03_async_await/01_chapter.html"><strong aria-hidden="true">3.</strong> async/await</a></li><li><a href="../04_pinning/01_chapter.html"><strong aria-hidden="true">4.</strong> Pinning</a></li><li><a href="../05_streams/01_chapter.html"><strong aria-hidden="true">5.</strong> Streams</a></li><li><ol class="section"><li><a href="../05_streams/02_iteration_and_concurrency.html"><strong aria-hidden="true">5.1.</strong> 迭代與並行</a></li></ol></li><li><a href="../06_multiple_futures/01_chapter.html"><strong aria-hidden="true">6.</strong> 同時執行多個 Future</a></li><li><ol class="section"><li><a href="../06_multiple_futures/02_join.html"><strong aria-hidden="true">6.1.</strong> join!</a></li><li><a href="../06_multiple_futures/03_select.html"><strong aria-hidden="true">6.2.</strong> select!</a></li><li><a href="../404.html"><strong aria-hidden="true">6.3.</strong> TODO: 產生 Spawning</a></li><li><a href="../404.html"><strong aria-hidden="true">6.4.</strong> TODO: 取消與逾時</a></li><li><a href="../404.html"><strong aria-hidden="true">6.5.</strong> TODO: FuturesUnordered</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">7.</strong> TODO: I/O</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">7.1.</strong> TODO: AsyncRead 與 AsyncWrite</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">8.</strong> TODO: 非同步設計模式：解法與建議</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">8.1.</strong> TODO: 打造伺服器與請求/回應模式</a></li><li><a href="../404.html"><strong aria-hidden="true">8.2.</strong> TODO: 共享狀態管理</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">9.</strong> TODO: 生態系：Tokio 與更多</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">9.1.</strong> TODO: 還有好多好多？...</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -105,7 +110,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Asynchronous Programming in Rust</h1> 
+                        <h1 class="menu-title">Rust 非同步程式設計</h1>
 
                         <div class="right-buttons">
                             <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -140,11 +145,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#the-future-trait" id="the-future-trait"><h1>The <code>Future</code> Trait</h1></a>
-<p>The <code>Future</code> trait is at the center of asynchronous programming in Rust.
-A <code>Future</code> is an asynchronous computation that can produce a value
-(although that value may be empty, e.g. <code>()</code>). A <em>simplified</em> version of
-the future trait might look something like this:</p>
+                        <h1><a class="header" href="#future-trait" id="future-trait"><code>Future</code> Trait</a></h1>
+<p><code>Future</code> trait 在 Rust 非同步程式設計中扮演關鍵角色。一個 <code>Future</code> 就是一個非同步的運算，產出一個結果值（雖然這個值可能為空，例如 <code>()</code>）。一個<em>簡化</em>版的 future trait 看起來如下：</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -158,24 +160,9 @@ enum Poll&lt;T&gt; {
     Pending,
 }
 #}</code></pre></pre>
-<p>Futures can be advanced by calling the <code>poll</code> function, which will drive the
-future as far towards completion as possible. If the future completes, it
-returns <code>Poll::Ready(result)</code>. If the future is not able to complete yet, it
-returns <code>Poll::Pending</code> and arranges for the <code>wake()</code> function to be called
-when the <code>Future</code> is ready to make more progress. When <code>wake()</code> is called, the
-executor driving the <code>Future</code> will call <code>poll</code> again so that the <code>Future</code> can
-make more progress.</p>
-<p>Without <code>wake()</code>, the executor would have no way of knowing when a particular
-future could make progress, and would have to be constantly polling every
-future. With <code>wake()</code>, the executor knows exactly which futures are ready to
-be <code>poll</code>ed.</p>
-<p>For example, consider the case where we want to read from a socket that may
-or may not have data available already. If there is data, we can read it
-in and return <code>Poll::Ready(data)</code>, but if no data is ready, our future is
-blocked and can no longer make progress. When no data is available, we
-must register <code>wake</code> to be called when data becomes ready on the socket,
-which will tell the executor that our future is ready to make progress.
-A simple <code>SocketRead</code> future might look something like this:</p>
+<p>Future 可以透過呼叫 <code>poll</code> 函式往前推進，這個函式會盡可能地驅使 future 邁向完成。若 future 完成了，就回傳 <code>Poll::Ready(reuslt)</code>。若這個 future 尚無法完成，就回傳 <code>Poll::Pending</code>，並安排在該 <code>Future</code> 就緒且能有所進展時來呼叫 <code>wake()</code> 函式。當呼叫了 <code>wake()</code>，執行器（executor）會驅使 <code>Future</code> 再次呼叫 <code>poll</code>，於是 <code>Future</code> 就可以取得更多進展。</p>
+<p>若沒有 <code>wake()</code>，執行器不會知道哪個 future 能有所進展，因此必須不斷輪詢所有 future。有了 <code>wake()</code>，執行器能夠確切知道哪個 future 已準備好接受輪詢。</p>
+<p>舉例來說，試想我們要從 socket 讀取一些可能尚未就緒的資料。如果有資料進來，我們則可以讀取它並回傳 <code>Poll:Ready(data)</code>；但若沒有任何資料就緒，我們的 future 會被阻塞且無法取得任何進展。當沒有任何資料，我們必須註冊 <code>wake</code> 函式，並在 socket 上的資料就緒時呼叫它，進而告知執行器我們的 future 準備好取得進展了。一個簡單的 <code>SocketRead</code> future 大致上類似這樣：</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -203,10 +190,7 @@ impl SimpleFuture for SocketRead&lt;'_&gt; {
     }
 }
 #}</code></pre></pre>
-<p>This model of <code>Future</code>s allows for composing together multiple asynchronous
-operations without needing intermediate allocations. Running multiple futures
-at once or chaining futures together can be implemented via allocation-free
-state machines, like this:</p>
+<p>這個 <code>Future</code> 原型可以在不需要中間配置（intermediate allocation）下組合多個非同步操作。並可以經由免配置狀態機（allocation-free state machine）實作同時執行多個 future 或是串聯多個 future 的操作，示例如下：</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -255,9 +239,7 @@ where
     }
 }
 #}</code></pre></pre>
-<p>This shows how multiple futures can be run simultaneously without needing
-separate allocations, allowing for more efficient asynchronous programs.
-Similarly, multiple sequential futures can be run one after another, like this:</p>
+<p>這展示了多個 future 如何在無需分別配置資源的情形下同時執行，讓我們能夠寫出更高效的非同步程式。無獨有偶，多個循序的 future 也能一個接著一個執行，如下所示：</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -293,10 +275,7 @@ where
     }
 }
 #}</code></pre></pre>
-<p>These examples show how the <code>Future</code> trait can be used to express asynchronous
-control flow without requiring multiple allocated objects and deeply nested
-callbacks. With the basic control-flow out of the way, let's talk about the
-real <code>Future</code> trait and how it is different.</p>
+<p>這些示例展現出 <code>Future</code> 可以在無需額外配置的物件與深度巢狀回呼 （nested callback）的情形下，清晰表達出非同步的流程控制。看完這樣基本的流程控制，讓我們來討論真正的 <code>Future</code> trait 和剛剛的原型哪裡不相同。</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -310,20 +289,9 @@ trait Future {
     ) -&gt; Poll&lt;Self::Output&gt;;
 }
 #}</code></pre></pre>
-<p>The first change you'll notice is that our <code>self</code> type is no longer <code>&amp;mut self</code>,
-but has changed to <code>Pin&lt;&amp;mut Self&gt;</code>. We'll talk more about pinning in <a href="../04_pinning/01_chapter.html">a later
-section</a>, but for now know that it allows us to create futures that
-are immovable. Immovable objects can store pointers between their fields,
-e.g. <code>struct MyFut { a: i32, ptr_to_a: *const i32 }</code>. Pinning is necessary
-to enable async/await.</p>
-<p>Secondly, <code>wake: fn()</code> has changed to <code>&amp;mut Context&lt;'_&gt;</code>. In <code>SimpleFuture</code>,
-we used a call to a function pointer (<code>fn()</code>) to tell the future executor that
-the future in question should be polled. However, since <code>fn()</code> is zero-sized,
-it can't store any data about <em>which</em> <code>Future</code> called <code>wake</code>.</p>
-<p>In a real-world scenario, a complex application like a web server may have
-thousands of different connections whose wakeups should all be
-managed separately. The <code>Context</code> type solves this by providing access to
-a value of type <code>Waker</code>, which can be used to wake up a specific task.</p>
+<p>你會發現的第一個改變是 <code>self</code> 型別不再是 <code>&amp;mut self</code>，而是由 <code>Pin&lt;&amp;mut self&gt;</code> 取代。我們會在<a href="../04_pinning/01_chapter.html">往後的章節</a>有更多關於 Pinning 討論，此刻知道它允許我們建立一個不移動（immovable）的 future。不移動物件可在它們的欄位（field）保存指標，例如 <code>struct MyFut { a: i32, ptr_to_a: *const i32 }</code>。Pinning 是啟用 async/await 前必要之功能。</p>
+<p>第二，<code>wake: fn()</code> 改為 <code>&amp;mut Context&lt;_&gt;</code>。在 <code>SimpleFuture</code> 我們透過呼叫一個函式指標（<code>fn()</code>）來告知 future 執行器這個 future 可以接受輪詢。然而，由於 <code>fn()</code> 是 zero-sized，它不能儲存任何有關<em>哪個</em> <code>Future</code> 呼叫了 <code>wake</code> 的資訊。</p>
+<p>在真實世界場景下，一個複雜如網頁伺服器的應用程式可能有數以千計不同的連線，這些連線的喚醒函式需要妥善分別管理。<code>Context</code> 型別提供取得一個叫 <code>Waker</code> 的型別來解決此問題，<code>Waker</code> 的功能則是用來喚醒一個特定任務。</p>
 
                     </main>
 

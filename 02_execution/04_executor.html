@@ -3,7 +3,9 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Applied: Build an Executor - Asynchronous Programming in Rust</title>
+        <title>案例：打造一個執行器 - Rust 非同步程式設計</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,7 +58,7 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             document.body.className = theme;
             document.querySelector('html').className = theme + ' js';
@@ -75,7 +77,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="../01_getting_started/01_chapter.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li><a href="../01_getting_started/02_why_async.html"><strong aria-hidden="true">1.1.</strong> Why Async?</a></li><li><a href="../01_getting_started/03_state_of_async_rust.html"><strong aria-hidden="true">1.2.</strong> The State of Asynchronous Rust</a></li><li><a href="../01_getting_started/04_async_await_primer.html"><strong aria-hidden="true">1.3.</strong> async/.await Primer</a></li><li><a href="../01_getting_started/05_http_server_example.html"><strong aria-hidden="true">1.4.</strong> Applied: HTTP Server</a></li></ol></li><li><a href="../02_execution/01_chapter.html"><strong aria-hidden="true">2.</strong> Under the Hood: Executing Futures and Tasks</a></li><li><ol class="section"><li><a href="../02_execution/02_future.html"><strong aria-hidden="true">2.1.</strong> The Future Trait</a></li><li><a href="../02_execution/03_wakeups.html"><strong aria-hidden="true">2.2.</strong> Task Wakeups with Waker</a></li><li><a href="../02_execution/04_executor.html" class="active"><strong aria-hidden="true">2.3.</strong> Applied: Build an Executor</a></li><li><a href="../02_execution/05_io.html"><strong aria-hidden="true">2.4.</strong> Executors and System IO</a></li></ol></li><li><a href="../03_async_await/01_chapter.html"><strong aria-hidden="true">3.</strong> async/await</a></li><li><a href="../04_pinning/01_chapter.html"><strong aria-hidden="true">4.</strong> Pinning</a></li><li><a href="../05_streams/01_chapter.html"><strong aria-hidden="true">5.</strong> Streams</a></li><li><ol class="section"><li><a href="../05_streams/02_iteration_and_concurrency.html"><strong aria-hidden="true">5.1.</strong> Iteration and Concurrency</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">6.</strong> TODO: Executing Multiple Futures at a Time</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">6.1.</strong> TODO: join! and select!</a></li><li><a href="../404.html"><strong aria-hidden="true">6.2.</strong> TODO: Spawning</a></li><li><a href="../404.html"><strong aria-hidden="true">6.3.</strong> TODO: Cancellation and Timeouts</a></li><li><a href="../404.html"><strong aria-hidden="true">6.4.</strong> TODO: FuturesUnordered</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">7.</strong> TODO: I/O</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">7.1.</strong> TODO: AsyncRead and AsyncWrite</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">8.</strong> TODO: Asynchronous Design Patterns: Solutions and Suggestions</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">8.1.</strong> TODO: Modeling Servers and the Request/Response Pattern</a></li><li><a href="../404.html"><strong aria-hidden="true">8.2.</strong> TODO: Managing Shared State</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">9.</strong> TODO: The Ecosystem: Tokio and More</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">9.1.</strong> TODO: Lots, lots more?...</a></li></ol></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li><a href="../01_getting_started/01_chapter.html"><strong aria-hidden="true">1.</strong> 開始上手</a></li><li><ol class="section"><li><a href="../01_getting_started/02_why_async.html"><strong aria-hidden="true">1.1.</strong> 為什麼是非同步？</a></li><li><a href="../01_getting_started/03_state_of_async_rust.html"><strong aria-hidden="true">1.2.</strong> 非同步 Rust 的現況</a></li><li><a href="../01_getting_started/04_async_await_primer.html"><strong aria-hidden="true">1.3.</strong> async/.await 入門</a></li><li><a href="../01_getting_started/05_http_server_example.html"><strong aria-hidden="true">1.4.</strong> 案例：HTTP 伺服器</a></li></ol></li><li><a href="../02_execution/01_chapter.html"><strong aria-hidden="true">2.</strong> 揭秘：執行 Future 與任務</a></li><li><ol class="section"><li><a href="../02_execution/02_future.html"><strong aria-hidden="true">2.1.</strong> Future Trait</a></li><li><a href="../02_execution/03_wakeups.html"><strong aria-hidden="true">2.2.</strong> 透過 Waker 喚醒任務</a></li><li><a href="../02_execution/04_executor.html" class="active"><strong aria-hidden="true">2.3.</strong> 案例：打造一個執行器</a></li><li><a href="../02_execution/05_io.html"><strong aria-hidden="true">2.4.</strong> 執行器與系統輸入輸出</a></li></ol></li><li><a href="../03_async_await/01_chapter.html"><strong aria-hidden="true">3.</strong> async/await</a></li><li><a href="../04_pinning/01_chapter.html"><strong aria-hidden="true">4.</strong> Pinning</a></li><li><a href="../05_streams/01_chapter.html"><strong aria-hidden="true">5.</strong> Streams</a></li><li><ol class="section"><li><a href="../05_streams/02_iteration_and_concurrency.html"><strong aria-hidden="true">5.1.</strong> 迭代與並行</a></li></ol></li><li><a href="../06_multiple_futures/01_chapter.html"><strong aria-hidden="true">6.</strong> 同時執行多個 Future</a></li><li><ol class="section"><li><a href="../06_multiple_futures/02_join.html"><strong aria-hidden="true">6.1.</strong> join!</a></li><li><a href="../06_multiple_futures/03_select.html"><strong aria-hidden="true">6.2.</strong> select!</a></li><li><a href="../404.html"><strong aria-hidden="true">6.3.</strong> TODO: 產生 Spawning</a></li><li><a href="../404.html"><strong aria-hidden="true">6.4.</strong> TODO: 取消與逾時</a></li><li><a href="../404.html"><strong aria-hidden="true">6.5.</strong> TODO: FuturesUnordered</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">7.</strong> TODO: I/O</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">7.1.</strong> TODO: AsyncRead 與 AsyncWrite</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">8.</strong> TODO: 非同步設計模式：解法與建議</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">8.1.</strong> TODO: 打造伺服器與請求/回應模式</a></li><li><a href="../404.html"><strong aria-hidden="true">8.2.</strong> TODO: 共享狀態管理</a></li></ol></li><li><a href="../404.html"><strong aria-hidden="true">9.</strong> TODO: 生態系：Tokio 與更多</a></li><li><ol class="section"><li><a href="../404.html"><strong aria-hidden="true">9.1.</strong> TODO: 還有好多好多？...</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -105,7 +110,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Asynchronous Programming in Rust</h1> 
+                        <h1 class="menu-title">Rust 非同步程式設計</h1>
 
                         <div class="right-buttons">
                             <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -140,22 +145,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#applied-build-an-executor" id="applied-build-an-executor"><h1>Applied: Build an Executor</h1></a>
-<p>Rust's <code>Future</code>s are lazy: they won't do anything unless actively driven to
-completion. One way to drive a future to completion is to <code>.await</code> it inside
-an <code>async</code> function, but that just pushes the problem one level up: who will
-run the futures returned from the top-level <code>async</code> functions? The answer is
-that we need a <code>Future</code> executor.</p>
-<p><code>Future</code> executors take a set of top-level <code>Future</code>s and run them to completion
-by calling <code>poll</code> whenever the <code>Future</code> can make progress. Typically, an
-executor will <code>poll</code> a future once to start off. When <code>Future</code>s indicate that
-they are ready to make progress by calling <code>wake()</code>, they are placed back
-onto a queue and <code>poll</code> is called again, repeating until the <code>Future</code> has
-completed.</p>
-<p>In this section, we'll write our own simple executor capable of running a large
-number of top-level futures to completion concurrently.</p>
-<p>For this example, we depend on the <code>futures</code> crate for the <code>ArcWake</code> trait,
-which provides an easy way to construct a <code>Waker</code>.</p>
+                        <h1><a class="header" href="#案例打造一個執行器" id="案例打造一個執行器">案例：打造一個執行器</a></h1>
+<p>Rust 的 <code>Future</code> 具有惰性：除非積極驅動到完成，不然不會做任何事。驅使 future 完成的方法之一是在 <code>async</code> 函式中用 <code>.await</code> 等待它，但這只會將問題推向更高的層次：誰來跑最上層 <code>async</code> 函式返回的 future？答案揭曉，我們需要一個 <code>Future</code> 執行器（executor）。</p>
+<p><code>Future</code> 執行器會拿一群最上層的 <code>Future</code> 並在它們可有所進展時呼叫 <code>poll</code> 執行它們一直到完成。通常一個執行器會 <code>poll</code> 一個 future 一次作為開始。當 <code>Future</code> 透過呼叫 <code>wake()</code> 表示它們已就緒並可以有所進展時，<code>Future</code> 會被放回佇列並再度被呼叫 <code>poll</code>，不斷重複直到該 <code>Future</code> 完成了。</p>
+<p>在這一部分，我們將編寫自己的簡易執行器，能夠並行執行一大群最上層的 future 直到完成。</p>
+<p>這個示例中，我們會依賴 <code>futures</code> crate 的 <code>ArcWake</code> trait，這個 trait 提供一個簡便構建 <code>Waker</code> 的方法。</p>
 <pre><code class="language-toml">[package]
 name = &quot;xyz&quot;
 version = &quot;0.1.0&quot;
@@ -163,13 +157,11 @@ authors = [&quot;XYZ Author&quot;]
 edition = &quot;2018&quot;
 
 [dependencies]
-futures-preview = &quot;=0.3.0-alpha.16&quot;
+futures-preview = &quot;=0.3.0-alpha.17&quot;
 </code></pre>
-<p>Next, we need the following imports at the top of <code>src/main.rs</code>:</p>
+<p>接下來，我們需要在 <code>src/main.rs</code> 加上一些 import。</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
-#![feature(async_await)]
-
 #fn main() {
 use {
     futures::{
@@ -187,15 +179,8 @@ use {
     timer_future::TimerFuture,
 };
 #}</code></pre></pre>
-<p>Our executor will work by sending tasks to run over a channel. The executor
-will pull events off of the channel and run them. When a task is ready to
-do more work (is awoken), it can schedule itself to be polled again by
-putting itself back onto the channel.</p>
-<p>In this design, the executor itself just needs the receiving end of the task
-channel. The user will get a sending end so that they can spawn new futures.
-Tasks themselves are just futures that can reschedule themselves, so we'll
-store them as a future paired with a sender that the task can use to requeue
-itself.</p>
+<p>我們的執行器工作模式是發送任務到通道上（channel）。這個執行器會從通道拉取事件並執行。當一個任務已就緒將執行更多工作（被喚醒），它就可將自己放回通道中，以此方式自我排程來等待再次被輪詢。</p>
+<p>在這個設計下，執行器僅需要任務通道的接收端。使用者則會取得發送端，並藉由發送端產生（spawn）新的 future。而任務本身實際上是可自我排程的 future，所以我們將任務自身的結構設計為一個 future，加上一個可讓任務重新加入佇列的通道發送端。</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -218,7 +203,7 @@ struct Task {
     /// one thread executing tasks at once. However, Rust isn't smart
     /// enough to know that `future` is only mutated from one thread,
     /// so we need use the `Mutex` to prove thread-safety. A production
-    /// executor wouild not need this, and could use `UnsafeCell` instead.
+    /// executor would not need this, and could use `UnsafeCell` instead.
     future: Mutex&lt;Option&lt;BoxFuture&lt;'static, ()&gt;&gt;&gt;,
 
     /// Handle to place the task itself back onto the task queue.
@@ -234,10 +219,7 @@ fn new_executor_and_spawner() -&gt; (Executor, Spawner) {
     (Executor { ready_queue }, Spawner { task_sender})
 }
 #}</code></pre></pre>
-<p>Let's also add a method to spawner to make it easy to spawn new futures.
-This method will take a future type, box it and put it in a FutureObj,
-and create a new <code>Arc&lt;Task&gt;</code> with it inside which can be enqueued onto the
-executor.</p>
+<p>我們也在產生器（spawner）新增一個方法，使其產生新 future 更便利。這個方法需要傳入一個 future 型別，會將它 box 起來再放入新建立的 <code>Arc&lt;Task&gt;</code> 中，以便於將 future 加入 executor 的佇列。</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -252,15 +234,7 @@ impl Spawner {
     }
 }
 #}</code></pre></pre>
-<p>To poll futures, we'll need to create a <code>Waker</code>.
-As discussed in the <a href="./03_wakeups.html">task wakeups section</a>, <code>Waker</code>s are responsible
-for scheduling a task to be polled again once <code>wake</code> is called. Remember that
-<code>Waker</code>s tell the executor exactly which task has become ready, allowing
-them to poll just the futures that are ready to make progress. The easiest way
-to create a new <code>Waker</code> is by implementing the <code>ArcWake</code> trait and then using
-the <code>waker_ref</code> or <code>.into_waker()</code> functions to turn an <code>Arc&lt;impl ArcWake&gt;</code>
-into a <code>Waker</code>. Let's implement <code>ArcWake</code> for our tasks to allow them to be
-turned into <code>Waker</code>s and awoken:</p>
+<p>欲輪詢 future，我們需要建立 <code>Waker</code>。在<a href="./03_wakeups.html">任務喚醒一節</a>中討論過，讓任務 <code>wake</code> 被呼叫時的輪詢排程是 <code>Waker</code> 的職責所在。記住這一點，<code>Waker</code> 會告知執行器確切已就緒的任務為何，並允許執行器輪詢這些已就緒可有所進展的 future。建立一個新 <code>Waker</code> 最簡單的作法是透過實作 <code>ArcWake</code> trait，並使用 <code>waker_ref</code> 或 <code>.into_waker()</code> 函式將 <code>Arc&lt;impl ArcWake&gt;</code> 型別轉換為 <code>Waker</code>。現在我們來替任務實作 <code>ArcWake</code>，允許它們可以轉換成 <code>Waker</code> 並可以被喚醒：</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -273,9 +247,7 @@ impl ArcWake for Task {
     }
 }
 #}</code></pre></pre>
-<p>When a <code>Waker</code> is created from an <code>Arc&lt;Task&gt;</code>, calling <code>wake()</code> on it will
-cause a copy of the <code>Arc</code> to be sent onto the task channel. Our executor then
-needs to pick up the task and poll it. Let's implement that:</p>
+<p>當 <code>Waker</code> 從一個 <code>Arc&lt;Task&gt;</code> 建立後，呼叫它的 <code>wake()</code> 會發送一個 <code>Arc</code> 副本到任務通道上。我們的執行器就會取出並輪詢該任務。實作如下：</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -303,9 +275,8 @@ impl Executor {
     }
 }
 #}</code></pre></pre>
-<p>Congratulations! We now have a working futures executor. We can even use it
-to run <code>async/.await</code> code and custom futures, such as the <code>TimerFuture</code> we
-wrote earlier:</p>
+<p>恭喜啊！我們現在有一個能動的 future 執行器。我們甚至可以用它來執行
+<code>async/.await</code> 程式碼或是親手打造的 future，像是之前寫的 <code>TimerFuture</code>。</p>
 <pre><pre class="playpen"><code class="language-rust">fn main() {
     let (executor, spawner) = new_executor_and_spawner();
 
