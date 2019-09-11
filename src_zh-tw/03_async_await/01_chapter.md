@@ -30,7 +30,7 @@
 {{#include ../../examples/03_01_async_await/src/lib.rs:static_future_with_borrow}}
 ```
 
-透過將引數移動到該 `async` 區塊，我們延長了引數的生命週期，使其匹配 `foo` 回傳的 `Future`。
+透過將引數移動到該 `async` 區塊，我們延長了引數的生命週期，使其匹配 `good` 回傳的 `Future`。
 
 ## `async move`
 

@@ -10,15 +10,7 @@
 {{#include ../../examples/01_05_http_server/Cargo.toml:9:18}}
 ```
 
-現在已經取得我們的相依函式庫，可以開始寫程式了。開啟 `src/main.rs` 並在檔案最上面開啟 `async_await` 功能：
-
-```rust
-#![feature(async_await)]
-```
-
-這將會加入 nightly 版專屬但很快就會穩定的 `async/await` 語法支援。
-
-此外，有些 import 需要新增：
+現在已經取得相依函式庫，可以開始寫程式了。我們有些 import 需要新增：
 
 ```rust
 {{#include ../../examples/01_05_http_server/src/lib.rs:imports}}
