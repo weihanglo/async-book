@@ -181,8 +181,6 @@ async fn get_book_and_music() -&gt; (Book, Music) {
 }
 #}</code></pre></pre>
 <p><code>join!</code> 的返回值是一個帶有每個傳入的 <code>Future</code> 的輸出的元組（tuple）。</p>
-<p>The value returned by <code>join!</code> is a tuple containing the output of each
-<code>Future</code> passed in.</p>
 <h2><a class="header" href="#try_join" id="try_join"><code>try_join!</code></a></h2>
 <p>若 future 回傳的是 <code>Result</code>，請考慮使用 <code>try_join!</code> 而非 <code>join!</code>。由於 <code>join!</code> 會在所有 subfuture 完成就完成自己，甚至有 subfuture 回傳 <code>Err</code> 時還是會繼續處理其他 future。</p>
 <p>和 <code>join!</code> 不同的事，當任意一個 subfuture 回傳錯誤時，<code>try_join!</code> 就會立刻完成。</p>
