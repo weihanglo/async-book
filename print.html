@@ -1212,11 +1212,6 @@ async fn get_book_and_music() -&gt; (Book, Music) {
     (book, music)
 }
 #}</code></pre></pre>
-<p>However, this will be slower than necessary, since it won't start trying to
-<code>get_music</code> until after <code>get_book</code> has completed. In some other languages,
-futures are ambiently run to completion, so two operations can be
-run concurrently by first calling the each <code>async fn</code> to start the futures,
-and then awaiting them both:</p>
 <p>然而，因為 <code>get_music</code> 不會在 <code>get_book</code> 完成後自動嘗試開始，這將比我們需要的更慢。在部分語言中，futurue 在哪都能執行到完成，所以兩個操作可透過第一次呼叫 <code>async fn</code> 來開始 future，並在之後等待它們兩者。</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
@@ -1244,10 +1239,6 @@ async fn get_book_and_music() -&gt; (Book, Music) {
 <p>The value returned by <code>join!</code> is a tuple containing the output of each
 <code>Future</code> passed in.</p>
 <h2><a class="header" href="#try_join" id="try_join"><code>try_join!</code></a></h2>
-<p>For futures which return <code>Result</code>, consider using <code>try_join!</code> rather than
-<code>join!</code>. Since <code>join!</code> only completes once all subfutures have completed,
-it'll continue processing other futures even after one of its subfutures
-has returned an <code>Err</code>.</p>
 <p>若 future 回傳的是 <code>Result</code>，請考慮使用 <code>try_join!</code> 而非 <code>join!</code>。由於 <code>join!</code> 會在所有 subfuture 完成就完成自己，甚至有 subfuture 回傳 <code>Err</code> 時還是會繼續處理其他 future。</p>
 <p>和 <code>join!</code> 不同的事，當任意一個 subfuture 回傳錯誤時，<code>try_join!</code> 就會立刻完成。</p>
 <pre><pre class="playpen"><code class="language-rust">
