@@ -160,14 +160,7 @@ futures-preview = { version = &quot;=0.3.0-alpha.17&quot;, features = [&quot;com
 # server and to make HTTP requests.
 hyper = &quot;0.12.9&quot;
 </code></pre>
-<p>現在已經取得我們的相依函式庫，可以開始寫程式了。開啟 <code>src/main.rs</code> 並在檔案最上面開啟 <code>async_await</code> 功能：</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#![feature(async_await)]
-#fn main() {
-#}</code></pre></pre>
-<p>這將會加入 nightly 版專屬但很快就會穩定的 <code>async/await</code> 語法支援。</p>
-<p>此外，有些 import 需要新增：</p>
+<p>現在已經取得相依函式庫，可以開始寫程式了。我們有些 import 需要新增：</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {

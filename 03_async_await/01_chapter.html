@@ -198,7 +198,7 @@ fn good() -&gt; impl Future&lt;Output = u8&gt; {
     }
 }
 #}</code></pre></pre>
-<p>透過將引數移動到該 <code>async</code> 區塊，我們延長了引數的生命週期，使其匹配 <code>foo</code> 回傳的 <code>Future</code>。</p>
+<p>透過將引數移動到該 <code>async</code> 區塊，我們延長了引數的生命週期，使其匹配 <code>good</code> 回傳的 <code>Future</code>。</p>
 <h2><a class="header" href="#async-move" id="async-move"><code>async move</code></a></h2>
 <p><code>async</code> 區塊（block） 與閉包（closure）可以使用 <code>move</code> 關鍵字，行為更類似一般的閉包。一個 <code>async move</code> block 會取得它引用到的變數之所有權，這些變數就可以活過（outlive）當前的作用範圍（scope），但也就得與放棄其他程式碼共享這些變數的好處。</p>
 <pre><pre class="playpen"><code class="language-rust">
