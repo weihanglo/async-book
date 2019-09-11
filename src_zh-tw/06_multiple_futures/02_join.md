@@ -8,12 +8,6 @@
 {{#include ../../examples/06_02_join/src/lib.rs:naiive}}
 ```
 
-However, this will be slower than necessary, since it won't start trying to
-`get_music` until after `get_book` has completed. In some other languages,
-futures are ambiently run to completion, so two operations can be
-run concurrently by first calling the each `async fn` to start the futures,
-and then awaiting them both:
-
 然而，因為 `get_music` 不會在 `get_book` 完成後自動嘗試開始，這將比我們需要的更慢。在部分語言中，futurue 在哪都能執行到完成，所以兩個操作可透過第一次呼叫 `async fn` 來開始 future，並在之後等待它們兩者。
 
 ```rust
@@ -28,15 +22,7 @@ and then awaiting them both:
 
 `join!` 的返回值是一個帶有每個傳入的 `Future` 的輸出的元組（tuple）。
 
-The value returned by `join!` is a tuple containing the output of each
-`Future` passed in.
-
 ## `try_join!`
-
-For futures which return `Result`, consider using `try_join!` rather than
-`join!`. Since `join!` only completes once all subfutures have completed,
-it'll continue processing other futures even after one of its subfutures
-has returned an `Err`.
 
 若 future 回傳的是 `Result`，請考慮使用 `try_join!` 而非 `join!`。由於 `join!` 會在所有 subfuture 完成就完成自己，甚至有 subfuture 回傳 `Err` 時還是會繼續處理其他 future。
 
